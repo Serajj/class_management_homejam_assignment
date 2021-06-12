@@ -1,3 +1,4 @@
+
 const jwt = require("jsonwebtoken");
 
 
@@ -13,7 +14,10 @@ module.exports = (req, res, next) => {
                 const user = jwt.verify(token, "mynameisseraj");
                 req.user = user;
                 console.log(user);
-                return next();
+                if (user.type == 'Instructor') {
+                    return next();
+                }
+                return res.status(500).json({ success: false, message: "Access denied for " + user.type })
             } catch (e) {
                 return res.status(500).json({ message: "Invalid Token" })
             }
@@ -25,3 +29,6 @@ module.exports = (req, res, next) => {
 
     return res.status(500).json({ message: "Please Provide Authorization Token" })
 }
+
+
+

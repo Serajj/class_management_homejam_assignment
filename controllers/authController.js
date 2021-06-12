@@ -32,6 +32,11 @@ const getUsers = async (req, res) => {
 const registerUser = async (req, res) => {
 
     const body = req.body;
+    if (body.type == "Instructor" || body.type == "Teacher" || body.type == "Student") {
+        console.log(body.type);
+    } else {
+        return res.status(403).json({ success: false, message: "Type should be Instructor , Teacher or Student" })
+    }
 
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(body.password, salt)
@@ -57,7 +62,7 @@ const registerUser = async (req, res) => {
         lastName: body.lastName,
         email: body.email,
         password: body.password,
-        type: "Student",
+        type: body.type,
         roleId: 3,
     });
 

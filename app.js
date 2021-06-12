@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const { validate, ValidationError, Joi } = require('express-validation');
+
+//importing routes
 const authRoutes = require('./routes/authRoute');
+const instructorRoutes = require('./routes/instructorRoutes');
+//end Importing Routes
 require('./config/database');
 
 
@@ -25,10 +30,19 @@ app.use(bodyParser.json());
 
 
 app.use('/api', authRoutes);
+app.use('/api/instructor', instructorRoutes);
 app.get('/', (req, res) => {
     res.send("Welcome to E-learning");
 });
 
+
+app.use(function (err, req, res, next) {
+    if (err instanceof ValidationError) {
+        return res.status(err.statusCode).json(err)
+    }
+
+    return res.status(500).json(err)
+})
 app.listen(3000, () => {
     console.log("Server started at port 3000");
 })
