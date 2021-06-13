@@ -6,6 +6,7 @@ const { validate, ValidationError, Joi } = require('express-validation');
 //importing routes
 const authRoutes = require('./routes/authRoute');
 const instructorRoutes = require('./routes/instructorRoutes');
+const teacherRoutes = require('./routes/teacherRoute');
 //end Importing Routes
 require('./config/database');
 
@@ -31,6 +32,7 @@ app.use(bodyParser.json());
 
 app.use('/api', authRoutes);
 app.use('/api/instructor', instructorRoutes);
+app.use('/api/teacher', teacherRoutes);
 app.get('/', (req, res) => {
     res.send("Welcome to E-learning");
 });

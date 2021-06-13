@@ -8,7 +8,7 @@ const User = db.users;
 const getClasses = async (req, res) => {
     let data = await Classes.findAll({
         where: {
-            instructorId: req.user.id
+            instructor_id: req.user.id
         }
     });
 
@@ -24,9 +24,9 @@ const getClasses = async (req, res) => {
 const addClasses = async (req, res) => {
 
     let body = req.body;
-    body.instructorId = req.user.id;
+    body.instructor_id = req.user.id;
 
-    const istutorExist = await User.findByPk(body.tutorId);
+    const istutorExist = await User.findByPk(body.tutor_id);
     if (!istutorExist) {
         return res.status(403).json({ success: false, message: "Tutor not exist ." })
     }
@@ -48,8 +48,8 @@ const classUpdate = async (req, res) => {
     let body = req.body;
     const data = await Classes.findByPk(body.class_id);
 
-    if (body.tutorId) {
-        const istutorExist = await User.findByPk(body.tutorId);
+    if (body.tutor_id) {
+        const istutorExist = await User.findByPk(body.tutor_id);
         if (!istutorExist) {
             return res.status(403).json({ success: false, message: "Tutor not exist ." })
         }
@@ -61,7 +61,7 @@ const classUpdate = async (req, res) => {
     } else {
         if (data.instructorId) {
             data.name = body.name ? body.name : data.name;
-            data.tutorId = body.tutorId ? body.tutorId : data.tutorId;
+            data.tutor_id = body.tutor_id ? body.tutor_id : data.tutor_id;
             data.save()
             return res.status(200).json({ success: true, message: "Updated successfully !!", data: data })
         } else {

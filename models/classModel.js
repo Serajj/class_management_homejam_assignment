@@ -6,17 +6,17 @@ module.exports = (sequelize, DataTypes) => {
             trim: true,
             minlength: 1
         },
-        instructorId: {
+        instructor_id: {
             type: DataTypes.BIGINT,
             trim: true,
             minlength: 1
         },
-        tutorId: {
+        tutor_id: {
             type: DataTypes.BIGINT,
             trim: true,
             minlength: 1
         },
-        numberOfStudents: {
+        number_of_students: {
             type: DataTypes.BIGINT,
             trim: true,
             defaultValue: 0,

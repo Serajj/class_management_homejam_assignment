@@ -12,6 +12,7 @@
 // client.connect();
 
 const Sequelize = require('sequelize');
+const classModel = require('../models/classModel');
 const sequelize = new Sequelize('homejam', 'postgres', '1234', {
     host: "localhost",
     dialect: "postgres",
@@ -40,5 +41,7 @@ db.users = require('../models/usersModel')(sequelize, Sequelize.DataTypes);
 db.classes = require('../models/classModel')(sequelize, Sequelize.DataTypes);
 db.JoinedClasses = require('../models/joinedClassStudentModel')(sequelize, Sequelize.DataTypes);
 db.sequelize.sync().then(() => { console.log("Tables are created successfully"); }).catch(err => { console.log("Error : " + err); });
+
+
 
 module.exports = db;

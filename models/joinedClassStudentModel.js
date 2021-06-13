@@ -1,15 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
     const JoinedClasses = sequelize.define("joined_classes", {
 
-        classId: {
+        class_id: {
             type: DataTypes.BIGINT,
-            trim: true,
-            minlength: 1
+            references: {
+                model: 'classes', // 'fathers' refers to table name
+                key: 'id', // 'id' refers to column name in fathers table
+            }
         },
-        userId: {
+        user_id: {
             type: DataTypes.BIGINT,
-            trim: true,
-            minlength: 1
+            references: {
+                model: 'users', // 'fathers' refers to table name
+                key: 'id', // 'id' refers to column name in fathers table
+            }
         }
 
     })
