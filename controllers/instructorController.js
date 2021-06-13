@@ -43,6 +43,22 @@ const addClasses = async (req, res) => {
 
 }
 
+const getTeacherList = async (req, res) => {
+    var data = await User.findAll({
+        where: {
+            type: "Teacher"
+        }
+    });
+
+    if (data) {
+
+        return res.status(200).json({ success: true, message: "Teacher list fetched successfully !!", data: data })
+    }
+    return res.status(403).json({ success: false, message: "Not anty teacher registered yet !!" })
+
+}
+
+
 const classUpdate = async (req, res) => {
 
     let body = req.body;
@@ -59,7 +75,7 @@ const classUpdate = async (req, res) => {
     if (data === null) {
         return res.status(403).json({ success: false, message: "You don't have any Class , Create first ." })
     } else {
-        if (data.instructorId) {
+        if (data.instructor_id == req.user.id) {
             data.name = body.name ? body.name : data.name;
             data.tutor_id = body.tutor_id ? body.tutor_id : data.tutor_id;
             data.save()
@@ -80,7 +96,7 @@ const classDelete = async (req, res) => {
     if (data === null) {
         return res.status(403).json({ success: false, message: "You don't have any Class with class id  : " + body.class_id })
     } else {
-        if (data.instructorId) {
+        if (data.instructor_id == req.user.id) {
             data.destroy();
             return res.status(200).json({ success: true, message: "Deleted successfully !!" })
         } else {
@@ -96,5 +112,6 @@ module.exports = {
     getClasses,
     addClasses,
     classUpdate,
-    classDelete
+    classDelete,
+    getTeacherList
 }

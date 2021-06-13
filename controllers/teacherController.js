@@ -42,6 +42,21 @@ const getStudentsbyclassID = async (req, res) => {
 
 }
 
+const getAllStudents = async (req, res) => {
+    var data = await User.findAll({
+        where: {
+            type: "Student"
+        }
+    });
+
+    if (data) {
+
+        return res.status(200).json({ success: true, message: "Student list fetched successfully !!", data: data })
+    }
+    return res.status(403).json({ success: false, message: "Not anty student registered yet !!" })
+
+}
+
 
 
 const createStudentInClass = async (req, res) => {
@@ -158,5 +173,6 @@ module.exports = {
     readClassStudents,
     updateStudentInClass,
     deleteStudentFromClass,
-    getStudentsbyclassID
+    getStudentsbyclassID,
+    getAllStudents
 }
