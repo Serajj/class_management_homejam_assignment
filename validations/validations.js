@@ -12,6 +12,27 @@ const addClassvalidation = {
 }
 
 
+const userValidation = {
+    body: Joi.object({
+        first_name: Joi.string()
+            .required(),
+        last_name: Joi.string()
+            .required(),
+
+        email: Joi.string().email()
+            .required(),
+        type: Joi.string()
+            .required(),
+
+        password: Joi.allow()
+            .required()
+
+
+
+    })
+}
+
+
 const updateClassValidation = {
     body: Joi.object({
 
@@ -53,5 +74,6 @@ module.exports = {
     addClassvalidation,
     updateClassValidation,
     addClassStudentValidation,
-    deleteClassValidation
+    deleteClassValidation,
+    userValidation
 }

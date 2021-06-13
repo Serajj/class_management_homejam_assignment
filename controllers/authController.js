@@ -5,6 +5,12 @@ const jwt = require('jsonwebtoken');
 const getUsers = async (req, res) => {
 
     let body = req.body;
+
+    if (body.email == null || body.password == null) {
+        return res.status(403).json({ success: false, message: "Either email or password is missing!" })
+    }
+
+
     let checkUser = await User.findOne({
         where: {
             email: body.email
@@ -32,6 +38,29 @@ const getUsers = async (req, res) => {
 const registerUser = async (req, res) => {
 
     const body = req.body;
+
+    // checking for null values
+    if (body.first_name == null || body.last_name == null || body.email == null || body.password == null) {
+        return res.status(403).json({ success: false, message: "All fields are mandatory. first_name , last_name , email , type and password" })
+    } else {
+        console.log(body);
+    }
+
+    //checking for empty value
+    if (body.first_name == "" || body.last_name == "" || body.email == "" || body.password == "") {
+        return res.status(403).json({ success: false, message: "All fields are mandatory. first_name , last_name , email , type and password" })
+    } else {
+        console.log(body);
+    }
+
+    //checking email regression
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!re.test(String(body.email).toLowerCase())) {
+        return res.status(403).json({ success: false, message: "Please provide email in the format : username@domain.com" })
+    }
+
+    //checking type
     if (body.type == "Instructor" || body.type == "Teacher" || body.type == "Student") {
         console.log(body.type);
     } else {
@@ -63,6 +92,7 @@ const registerUser = async (req, res) => {
         email: body.email,
         password: body.password,
         type: body.type,
+        //prividind default role id for future extension
         roleid: 3,
     });
 

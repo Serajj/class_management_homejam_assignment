@@ -7,6 +7,7 @@ const { validate, ValidationError, Joi } = require('express-validation');
 const authRoutes = require('./routes/authRoute');
 const instructorRoutes = require('./routes/instructorRoutes');
 const teacherRoutes = require('./routes/teacherRoute');
+const studentRoutes = require('./routes/studentRoutes');
 //end Importing Routes
 require('./config/database');
 
@@ -29,15 +30,16 @@ app.use(bodyParser.json());
 
 
 
-
+//assigning routes
 app.use('/api', authRoutes);
 app.use('/api/instructor', instructorRoutes);
 app.use('/api/teacher', teacherRoutes);
+app.use('/api/student', studentRoutes);
 app.get('/', (req, res) => {
     res.send("Welcome to E-learning");
 });
 
-
+//defining validation routes
 app.use(function (err, req, res, next) {
     if (err instanceof ValidationError) {
         return res.status(err.statusCode).json(err)
